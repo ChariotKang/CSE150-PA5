@@ -1,10 +1,10 @@
 from MDP import *
 mdp = MDP()
 mdp.discountFactor = 0.99
-mdp.actions.append('E')
-mdp.actions.append('W')
-mdp.actions.append('S')
-mdp.actions.append('N')
+mdp.actions.append('EAST')
+mdp.actions.append('WEST')
+mdp.actions.append('SOUTH')
+mdp.actions.append('NORTH')
 f = open("rewards.txt")
 i = 1
 for line in f:
@@ -16,28 +16,28 @@ f.close()
 f = open("prob_east.txt")
 for line in f:
 	splitList = line.split()
-	mdp.addTransition(splitList[1], splitList[0], 'E', splitList[2])
+	mdp.addTransition(splitList[1], splitList[0], 'EAST', splitList[2])
 	#mdp.addAction(int(splitList[0]),'E')
 f.close()
 #print (mdp.transitionFunction)
 f = open("prob_west.txt")
 for line in f:
 	splitList = line.split()
-	mdp.addTransition(splitList[1], splitList[0], 'W', splitList[2])
+	mdp.addTransition(splitList[1], splitList[0], 'WEST', splitList[2])
 	#mdp.addAction(splitList[0],'W')
 f.close()
 
 f = open("prob_south.txt")
 for line in f:
 	splitList = line.split()
-	mdp.addTransition(splitList[1], splitList[0], 'S', splitList[2])
+	mdp.addTransition(splitList[1], splitList[0], 'SOUTH', splitList[2])
 	#mdp.addAction(splitList[0],'S')
 f.close()
 
 f = open("prob_north.txt")
 for line in f:
 	splitList = line.split()
-	mdp.addTransition(splitList[1], splitList[0], 'N', splitList[2])
+	mdp.addTransition(splitList[1], splitList[0], 'NORTH', splitList[2])
 	#mdp.addAction(splitList[0],'N')
 f.close()
 #print (mdp.transitionFunction)"""
@@ -76,13 +76,31 @@ def value_iteration(mdp, e):
 			#break
 	return U
 U = value_iteration(mdp,0.1)
+pi = {}
+for s in mdp.states:
+	maxPU = float("-inf")
+	maxAction = None
+	for action in mdp.actions:
+		PU = 0
+		for (s2, prob) in mdp.transitionFunction[(s, action)]:
+			PU = PU + prob*U[s2-1]
+		if PU > maxPU:
+			maxPU = PU
+			maxAction = action
+	pi[s] = maxAction
 for i in range (1, 81):
 	if U[i-1] < 0:
 		print(i,)
 		print ("Negative ",)
-		print (U[i-1])
+		print (U[i-1],)
+		print ("Action :",)
+		print (pi[i])
+		print()
 	if U[i-1] > 0:
 		print(i,)
 		print ("Positive ",)
 		print (U[i-1])
+		print ("Action :",)
+		print (pi[i])
+		print()
 #value_iteration(mdp,1)
