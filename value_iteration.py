@@ -56,8 +56,8 @@ def value_iteration(mdp, e):
 		U.append(0)
 		U2.append(0)
 	maxChange = 0
-	#while True:
-	for i in range(1, 1000):
+	while True:
+	#for i in range(1, 1000):
 		U = U2
 		maxChange = 0
 		for s in mdp.states:
@@ -72,8 +72,8 @@ def value_iteration(mdp, e):
 				maxChange = abs(U2[s-1] - U[s-1])
 				#print (maxChange)
 		#print (U2)
-		#if(maxChange < (e*(1-mdp.discountFactor)/mdp.discountFactor)):
-			#break
+		if(maxChange == 0):
+			break
 	return U
 U = value_iteration(mdp,0.1)
 pi = {}
