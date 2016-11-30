@@ -41,14 +41,6 @@ for line in f:
 	#mdp.addAction(splitList[0],'N')
 f.close()
 #print (mdp.transitionFunction)"""
-"""def maxPU(s):
-	listPU = []
-	for action in mdp.actions:
-		PU = 0
-		for (s2, prob) in mdp.transitionFunction[(s, action)]:
-			PU = PU + prob*U[s2]
-		listPU.append(PU)
-	return max(listPU)"""
 def value_iteration(mdp, e):
 	U = []
 	U2 = []
@@ -56,9 +48,12 @@ def value_iteration(mdp, e):
 		U.append(0)
 		U2.append(0)
 	maxChange = 0
+	#timesOfLoop = 0
 	while True:
 	#for i in range(1, 1000):
-		U = U2
+		#timesOfLoop = timesOfLoop + 1
+		for i in range(0, len(U2)):
+			U[i] = U2[i]
 		maxChange = 0
 		for s in mdp.states:
 			listPU = []
@@ -88,19 +83,9 @@ for s in mdp.states:
 			maxPU = PU
 			maxAction = action
 	pi[s] = maxAction
+listOfStateUtilityPolicy = []
 for i in range (1, 81):
-	if U[i-1] < 0:
-		print(i,)
-		print ("Negative ",)
-		print (U[i-1],)
-		print ("Action :",)
-		print (pi[i])
-		print()
 	if U[i-1] > 0:
-		print(i,)
-		print ("Positive ",)
-		print (U[i-1])
-		print ("Action :",)
-		print (pi[i])
-		print()
-#value_iteration(mdp,1)
+		listOfStateUtilityPolicy.append((i, U[i-1], pi[i]))
+for element in listOfStateUtilityPolicy:
+	print element

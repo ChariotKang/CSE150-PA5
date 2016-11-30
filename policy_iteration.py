@@ -89,9 +89,15 @@ def policyIteration(mdp):
 				unchanged = False
 		if unchanged == True:
 			break
-	print (pi)
-	return pi
+	#print (pi)
+	return (pi, U)
 		
 	
 	
-pi = policyIteration(mdp)
+pi, U = policyIteration(mdp)
+listOfStatePolicy = []
+for i in range(1, 81):
+	if U[i-1] > 0:
+		listOfStatePolicy.append((i, pi[i]))
+for element in listOfStatePolicy:
+	print element
