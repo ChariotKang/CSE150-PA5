@@ -43,7 +43,7 @@ for line in f:
 	#mdp.addAction(splitList[0],'N')
 f.close()
 
-def policyEvaluation(pi, mdp):
+def policy_evaluation(pi, mdp):
 	matrix = np.zeros((len(mdp.states),len(mdp.states)))
 	left = np.zeros((len(mdp.states), 1))
 	for i in range(1, len(mdp.states)+1):
@@ -63,13 +63,13 @@ def policyEvaluation(pi, mdp):
 	return U2
 	
 
-def policyIteration(mdp):
+def policy_iteration(mdp):
 	pi = {}
 	for i in range(1, len(mdp.states)+1):
 		pi[i] = mdp.actions[random.randint(0, 3)]
 	U = []
 	while True:
-		U = policyEvaluation(pi, mdp)
+		U = policy_evaluation(pi, mdp)
 		unchanged = True
 		for s in mdp.states:
 			maxPU = float("-inf")
@@ -94,7 +94,7 @@ def policyIteration(mdp):
 		
 	
 	
-pi, U = policyIteration(mdp)
+pi, U = policy_iteration(mdp)
 listOfStatePolicy = []
 for i in range(1, 81):
 	if U[i-1] > 0:
